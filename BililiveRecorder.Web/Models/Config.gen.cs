@@ -220,6 +220,7 @@ namespace BililiveRecorder.Web.Models.Graphql
             this.Field(x => x.RecordingQuality);
             this.Field(x => x.FileNameRecordTemplate);
             this.Field(x => x.FlvProcessorSplitOnScriptTag);
+            this.Field(x => x.AutoTranscode);
             this.Field(x => x.WebHookUrls);
             this.Field(x => x.WebHookUrlsV2);
             this.Field(x => x.WpfShowTitleAndArea);

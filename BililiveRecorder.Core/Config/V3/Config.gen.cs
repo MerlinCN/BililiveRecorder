@@ -108,7 +108,25 @@ namespace BililiveRecorder.Core.Config.V3
         public bool HasFlvProcessorSplitOnScriptTag { get => this.GetPropertyHasValue(nameof(this.FlvProcessorSplitOnScriptTag)); set => this.SetPropertyHasValue<bool>(value, nameof(this.FlvProcessorSplitOnScriptTag)); }
         [JsonProperty(nameof(FlvProcessorSplitOnScriptTag)), EditorBrowsable(EditorBrowsableState.Never)]
         public Optional<bool> OptionalFlvProcessorSplitOnScriptTag { get => this.GetPropertyValueOptional<bool>(nameof(this.FlvProcessorSplitOnScriptTag)); set => this.SetPropertyValueOptional(value, nameof(this.FlvProcessorSplitOnScriptTag)); }
-
+        
+        
+        /// <summary>
+        /// 自动转码
+        /// </summary>
+        public bool AutoTranscode { get => this.GetPropertyValue<bool>(); set => this.SetPropertyValue(value); }
+        public bool HasAutoTranscode { get => this.GetPropertyHasValue(nameof(this.AutoTranscode)); set => this.SetPropertyHasValue<bool>(value, nameof(this.AutoTranscode)); }
+        [JsonProperty(nameof(AutoTranscode)), EditorBrowsable(EditorBrowsableState.Never)]
+        public Optional<bool> OptionalAutoTranscode { get => this.GetPropertyValueOptional<bool>(nameof(this.AutoTranscode)); set => this.SetPropertyValueOptional(value, nameof(this.AutoTranscode)); }
+        
+        
+        /// <summary>
+        /// 转码后删除文件
+        /// </summary>
+        public bool DelRawFlvFile { get => this.GetPropertyValue<bool>(); set => this.SetPropertyValue(value); }
+        public bool HasDelRawFlvFile { get => this.GetPropertyHasValue(nameof(this.DelRawFlvFile)); set => this.SetPropertyHasValue<bool>(value, nameof(this.DelRawFlvFile)); }
+        [JsonProperty(nameof(DelRawFlvFile)), EditorBrowsable(EditorBrowsableState.Never)]
+        public Optional<bool> OptionalDelRawFlvFile { get => this.GetPropertyValueOptional<bool>(nameof(this.DelRawFlvFile)); set => this.SetPropertyValueOptional(value, nameof(this.DelRawFlvFile)); }
+        
         /// <summary>
         /// 录制文件名模板
         /// </summary>
@@ -281,6 +299,23 @@ namespace BililiveRecorder.Core.Config.V3
         public bool HasFlvProcessorSplitOnScriptTag { get => this.GetPropertyHasValue(nameof(this.FlvProcessorSplitOnScriptTag)); set => this.SetPropertyHasValue<bool>(value, nameof(this.FlvProcessorSplitOnScriptTag)); }
         [JsonProperty(nameof(FlvProcessorSplitOnScriptTag)), EditorBrowsable(EditorBrowsableState.Never)]
         public Optional<bool> OptionalFlvProcessorSplitOnScriptTag { get => this.GetPropertyValueOptional<bool>(nameof(this.FlvProcessorSplitOnScriptTag)); set => this.SetPropertyValueOptional(value, nameof(this.FlvProcessorSplitOnScriptTag)); }
+        
+        
+        /// <summary>
+        /// 自动转码
+        /// </summary>
+        public bool AutoTranscode { get => this.GetPropertyValue<bool>(); set => this.SetPropertyValue(value); }
+        public bool HasAutoTranscode { get => this.GetPropertyHasValue(nameof(this.AutoTranscode)); set => this.SetPropertyHasValue<bool>(value, nameof(this.AutoTranscode)); }
+        [JsonProperty(nameof(AutoTranscode)), EditorBrowsable(EditorBrowsableState.Never)]
+        public Optional<bool> OptionalAutoTranscode { get => this.GetPropertyValueOptional<bool>(nameof(this.AutoTranscode)); set => this.SetPropertyValueOptional(value, nameof(this.AutoTranscode)); }
+        
+        /// <summary>
+        /// 转码后删除文件
+        /// </summary>
+        public bool DelRawFlvFile { get => this.GetPropertyValue<bool>(); set => this.SetPropertyValue(value); }
+        public bool HasDelRawFlvFile { get => this.GetPropertyHasValue(nameof(this.DelRawFlvFile)); set => this.SetPropertyHasValue<bool>(value, nameof(this.DelRawFlvFile)); }
+        [JsonProperty(nameof(DelRawFlvFile)), EditorBrowsable(EditorBrowsableState.Never)]
+        public Optional<bool> OptionalDelRawFlvFile { get => this.GetPropertyValueOptional<bool>(nameof(this.DelRawFlvFile)); set => this.SetPropertyValueOptional(value, nameof(this.DelRawFlvFile)); }
 
         /// <summary>
         /// WebhookV1
@@ -430,6 +465,7 @@ namespace BililiveRecorder.Core.Config.V3
         public string FileNameRecordTemplate => @"{{ roomId }}-{{ name }}/录制-{{ roomId }}-{{ ""now"" | time_zone: ""Asia/Shanghai"" | format_date: ""yyyyMMdd-HHmmss-fff"" }}-{{ title }}.flv";
 
         public bool FlvProcessorSplitOnScriptTag => false;
+        public bool AutoTranscode => false;
 
         public string WebHookUrls => @"";
 

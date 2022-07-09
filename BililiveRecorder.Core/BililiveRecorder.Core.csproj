@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CliWrap" Version="3.3.2" />
     <PackageReference Include="Fluid.Core" Version="2.2.15" />
     <PackageReference Include="Jint" Version="3.0.0-preview-275" />
     <PackageReference Include="JsonSubTypes" Version="1.9.0" />

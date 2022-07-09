@@ -16,6 +16,8 @@ using BililiveRecorder.Flv.Pipeline;
 using BililiveRecorder.Flv.Pipeline.Actions;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using CliWrap;
+using CliWrap.Buffered;
 
 namespace BililiveRecorder.Core.Recording
 {
@@ -111,12 +113,76 @@ namespace BililiveRecorder.Core.Recording
                     FileSize = e.FileSize,
                 });
             };
+            
+            this.writer.FileClosed += (sender, e) =>
+            {
+                logger.Debug("是否自动转码, {0}", this.room.RoomConfig.AutoTranscode);
+                if (!this.room.RoomConfig.AutoTranscode)
+                {
+                    return;
+                }
+                var openingEventArgs = (RecordFileOpeningEventArgs)e.State!;
+                var fullPath = openingEventArgs.FullPath;
+                _ = Task.Run(async () => await this.TranscodeAsync(fullPath));
+            };
 
             _ = Task.Run(async () => await this.FillPipeAsync(stream, pipe.Writer).ConfigureAwait(false));
 
             _ = Task.Run(this.RecordingLoopAsync);
         }
 
+        
+        
+        public async Task TranscodeAsync(string path)
+        {
+            try
+            {
+                var FFmpegWorkingDirectory =
+                    Path.Combine(Path.GetDirectoryName(typeof(StandardRecordTask).Assembly.Location), "lib");
+                var FFmpegPath = Path.Combine(FFmpegWorkingDirectory, "miniffmpeg");
+                
+                var filename = path.Replace(".flv", "");
+                var newPath = filename + ".mp4";
+
+
+                logger.Debug("开始自动转码, {Source}, {Target}", path, newPath);
+
+                var result = await Cli.Wrap(FFmpegPath)
+                    .WithValidation(CommandResultValidation.None)
+                    .WithWorkingDirectory(FFmpegWorkingDirectory)
+                    .WithArguments(new[]
+                    {
+                        "-hide_banner", "-loglevel", "error", "-y", "-i", path, "-c", "copy", newPath
+                    })
+#if DEBUG
+                    .ExecuteBufferedAsync();
+#else
+                .ExecuteAsync();
+#endif
+
+                logger.Debug("自动转码结束 {@Result}", result);
+
+
+                if (File.Exists(path) && this.room.RoomConfig.DelRawFlvFile)
+                {
+                    try
+                    {
+                        File.Delete(path);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warning(ex, "删除文件{@path}出错", path);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Warning(ex, "转封装时发生未知错误");
+            }
+        }
+
+
+        
         private async Task FillPipeAsync(Stream stream, PipeWriter writer)
         {
             const int minimumBufferSize = 1024;

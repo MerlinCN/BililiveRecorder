@@ -58,6 +58,12 @@
                     <ui:ToggleSwitch IsOn="{Binding FlvProcessorSplitOnScriptTag}" OnContent="检测到可能缺少数据时分段" OffContent="检测到可能缺少数据时分段"/>
                 </StackPanel>
             </GroupBox>
+            <GroupBox Header="自动转码">
+                <StackPanel>
+                    <ui:ToggleSwitch IsOn="{Binding AutoTranscode}" OnContent="完成录制后自动转码为mp4" OffContent="完成录制后不转码为mp4"/>
+                    <ui:ToggleSwitch IsOn="{Binding DelRawFlvFile}" OnContent="转码后删除flv文件" OffContent="转码后保留flv文件"/>
+                </StackPanel>
+            </GroupBox>
             <GroupBox Header="{l:Loc Settings_Splitting_Title}">
                 <StackPanel>
                     <RadioButton GroupName="Splitting" Name="CutDisabledRadioButton" Content="{l:Loc Settings_Splitting_RadioButton_Disabled}"
